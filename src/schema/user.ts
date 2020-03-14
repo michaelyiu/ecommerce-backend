@@ -4,7 +4,7 @@ export default gql`
 	extend type Query {
     hello: String
 		user(email: String!): User
-    users: [User]
+    allUsers: [User]
     me: User
 	}
 

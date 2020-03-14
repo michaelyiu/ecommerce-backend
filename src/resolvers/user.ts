@@ -11,7 +11,7 @@ const userResolvers: IResolvers = {
 		hello: () => {
 			return "Hello dere";
 		},
-		users: combineResolvers(
+		allUsers: combineResolvers(
 			async (_: any, args: any, { models }: any): Promise<string> => {
 				console.log(args)
 				// auth check for every query and mutation except for the signup mutation

@@ -1,6 +1,8 @@
 import { gql } from "apollo-server-lambda";
 
 import userSchema from "./user";
+import productSchema from "./product";
+import orderSchema from "./order";
 
 const linkSchema = gql`
   scalar Date
@@ -16,5 +18,7 @@ const linkSchema = gql`
 //schema stitch
 export default [
   linkSchema,
-  userSchema
+  userSchema,
+  productSchema,
+  orderSchema,
 ]
