@@ -7,14 +7,14 @@ export default gql`
 	}
 
 	extend type Mutation {
-		addNewProduct(category: String, name: String!, price: Float!, image: String): Product!
+		addNewProduct(category: String!, name: String!, price: Float!, image: String!): Product!
 	}
 
 	type Product {
-		id: ID
-		category: String
-		name: String
-		price: Float
-		image: String
+		id: ID!
+		category: String!
+		name: String!
+		price: Float!
+		image: String!
 	}
 `;

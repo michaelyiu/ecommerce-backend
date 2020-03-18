@@ -1,9 +1,9 @@
 import { User } from "./User";
 import { Product } from "./Product";
-import { Order } from "./Order";
+import { Cart } from "./Cart";
 
 export default {
 	User,
 	Product,
-	Order
+	Cart,
 };
