@@ -18,7 +18,7 @@ export default gql`
 	}
 
 	input CartInput {
-		# user: String!
+		orderedBy: String!
 		total: Float!
 		orderedItems: [String!]
 	}

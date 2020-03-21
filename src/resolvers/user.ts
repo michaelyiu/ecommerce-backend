@@ -6,28 +6,28 @@ import { combineResolvers } from "graphql-resolvers";
 import { AuthenticationError, UserInputError } from "apollo-server-lambda";
 import { isAuthenticated } from './authorization';
 
+
 const userResolvers: IResolvers = {
 	Query: {
 		hello: () => {
 			return "Hello dere";
 		},
 		allUsers: combineResolvers(
-			async (_: any, args: any, { models }: any): Promise<string> => {
-				console.log(args)
+			async (_, { }, { models }): Promise<string> => {
 				// auth check for every query and mutation except for the signup mutation
 				return models.User.find({});
 			}
 		),
 		user: combineResolvers(
 			isAuthenticated,
-			async (_: any, { email }: any, { models }: any): Promise<string> => {
+			async (_, { email }, { models }): Promise<string> => {
 				// auth check for every query and mutation except for the signup mutation
 				return models.User.findOne({ email });
 			}
 		)
 	},
 	Mutation: {
-		signUp: async (_: any, args: any, { models }: any): Promise<string> => {
+		signUp: async (_, args, { models }): Promise<string> => {
 			const { email, password, name } = args;
 
 			const salt = genSaltSync(10)
@@ -35,7 +35,7 @@ const userResolvers: IResolvers = {
 			const checkIfExists = await models.User.findOne({ email }).then();
 
 			if (checkIfExists) {
-				throw new UserInputError("Sign up failed!");
+				throw new UserInputError("This email account already exists in our database!");
 			}
 			else {
 				const newUser = models.User.create({
@@ -47,15 +47,15 @@ const userResolvers: IResolvers = {
 			}
 		},
 
-		signIn: async (_: any, args, { models, secret }) => {
+		signIn: async (_, args, { models, secret }) => {
 
-			const { email } = args;
+			const { email, password } = args;
 			const user = await models.User.findOne({ email }).then(async (user: any) => {
 				if (!user) {
 					throw new UserInputError("Login failed!");
 				}
 
-				const passwordIsValid = await compareSync(args.password, user.password);
+				const passwordIsValid = await compareSync(password, user.password);
 
 				if (!passwordIsValid) {
 					throw new AuthenticationError("Invalid login/password!")
@@ -67,7 +67,7 @@ const userResolvers: IResolvers = {
 			const token = await createToken(user, secret, '7d');
 			console.log(token);
 			return {
-				// name: user.name,
+				name: user.name,
 				email: user.email,
 				token
 			}

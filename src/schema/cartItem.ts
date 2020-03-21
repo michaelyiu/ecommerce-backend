@@ -7,15 +7,9 @@ export default gql`
 	}
 
 	extend type Mutation {
-		createCartItem( cartItemInput: CartItemInput): CartItem
-		updateCartItem(cartItem_id: String! cartItemInput: CartItemInput): CartItem
+		createCartItem(cartItemInput: CartItemInput cart_id: String!): CartItem
+		updateCartItem(cartItem_id: String! cart_id: String! cartItemInput: CartItemInput): CartItem
 		deleteCartItem(cartItem_id: String! cart_id: String!): Boolean
-	}
-
-	input CartItemInput {
-		cart_id: String!
-		product: String!
-		quantity: Int!
 	}
 
 	type CartItem {
@@ -23,6 +17,12 @@ export default gql`
 		orderedBy: User!
 		cart: Cart
 		product: Product!
+		quantity: Int!
+	}
+
+	input CartItemInput {
+		
+		product: String!
 		quantity: Int!
 	}
 `;

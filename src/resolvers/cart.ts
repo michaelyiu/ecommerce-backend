@@ -5,14 +5,14 @@ import { combineResolvers } from "graphql-resolvers";
 const cartResolvers: IResolvers = {
 	Query: {
 		cart: combineResolvers(
-			async (_: any, { id }: any, { models }: any): Promise<string> => {
+			async (_, { id }, { models }): Promise<string> => {
 				return models.Cart.findById(id)
 			}
 		)
 	},
 	Mutation: {
 		updateCart: combineResolvers(
-			async (_: any, { cartInput }: any, { models, me }: any): Promise<string> => {
+			async (_, { cartInput }, { models, me }): Promise<string> => {
 				let cart;
 				if (!cartInput) {
 					cart = await models.Cart.create({
@@ -21,8 +21,6 @@ const cartResolvers: IResolvers = {
 					})
 				}
 				else {
-
-					console.log(cartInput)
 					cart = await models.Cart.findOneAndUpdate(
 						{ orderedBy: me.id },
 						cartInput,
@@ -33,7 +31,7 @@ const cartResolvers: IResolvers = {
 			}
 		),
 		deleteCart: combineResolvers(
-			async (_: any, { cart_id }: any, { models }: any): Promise<boolean> => {
+			async (_, { cart_id }, { models }): Promise<boolean> => {
 				const cart = await models.Cart.findById(cart_id)
 					.then((cart: any) => {
 						cart.remove()

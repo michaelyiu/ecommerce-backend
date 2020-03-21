@@ -14,8 +14,20 @@ var ProductSchema = new Schema({
 	category: String,
 	name: String,
 	price: Number,
-	image: String
+	image: String,
+	created_at: {
+		type: Date,
+		default: Date.now
+	},
+	updated_at: {
+		type: Date,
+		default: Date.now
+	}
 });
 
+// middleware hook
+ProductSchema.pre('findOneAndUpdate', function () {
+	this.update({}, { $set: { updated_at: new Date() } });
+});
 
 export const Product: Model<IProduct> = model<IProduct>('Product', ProductSchema);

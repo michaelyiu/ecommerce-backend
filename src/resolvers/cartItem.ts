@@ -5,12 +5,12 @@ import { combineResolvers } from "graphql-resolvers";
 const cartItemResolvers: IResolvers = {
 	Query: {
 		cartItem: combineResolvers(
-			async (_: any, args: any, { models }: any): Promise<string> => {
+			async (_, args, { models }): Promise<string> => {
 				return models.CartItem.findById(args.id)
 			}
 		),
 		allCartItems: combineResolvers(
-			async (_: any, args: any, { models }: any): Promise<string> => {
+			async (_, { }, { models }): Promise<string> => {
 				const cartItems = await models.CartItem.find();
 
 				return cartItems.map((cartItem: any) => {
@@ -23,13 +23,13 @@ const cartItemResolvers: IResolvers = {
 	},
 	Mutation: {
 		createCartItem: combineResolvers(
-			async (_: any, { cartItemInput }: any, { models, me }: any): Promise<string> => {
+			async (_, { cartItemInput, cart_id }, { models, me }): Promise<string> => {
 				//need to check if product id is valid
 				await models.Product.findById(cartItemInput.product).catch(() => {
 					throw new Error("Product not found")
 				})
 
-				const cart = await models.Cart.findById(cartItemInput.cart_id).then((cart: any) => {
+				const cart = await models.Cart.findById(cart_id).then((cart: any) => {
 					cart.save();
 					cartItemInput.orderedBy = me.id
 					cart.orderedItems.unshift(cartItemInput)
@@ -42,37 +42,37 @@ const cartItemResolvers: IResolvers = {
 			}
 		),
 		updateCartItem: combineResolvers(
-			async (_: any, args: any, { models }: any): Promise<string> => {
+			async (_, { cartItemInput, cartItem_id, cart_id }, { models }: any): Promise<string> => {
 
 				const cart = await models.Cart.findOneAndUpdate({
-					"_id": args.cartItemInput.cart_id,
-					"orderedItems._id": args.cartItem_id
+					"_id": cart_id,
+					"orderedItems._id": cartItem_id
 				}, {
 					"$set": {
-						"orderedItems.$.product": args.cartItemInput.product,
-						"orderedItems.$.quantity": args.cartItemInput.quantity,
+						"orderedItems.$.product": cartItemInput.product,
+						"orderedItems.$.quantity": cartItemInput.quantity,
 					},
 				},
 					{ "new": true, "upsert": true }
 				).then((cart: any) => {
-					return cart.orderedItems.id(args.cartItem_id)
+					return cart.orderedItems.id(cartItem_id)
 				})
 				return cart;
 			}
 		),
 		deleteCartItem: combineResolvers(
-			async (_: any, args: any, { models }: any): Promise<boolean> => {
-				const cart = await models.Cart.findById(args.cart_id)
+			async (_, { cartItem_id, cart_id }, { models }): Promise<boolean> => {
+				const cart = await models.Cart.findById(cart_id)
 					.then((cart: any) => {
 						if (
 							cart.orderedItems.filter(
-								(item: any) => item._id.toString() === args.cartItem_id).length === 0
+								(item: any) => item._id.toString() === cartItem_id).length === 0
 						) {
 							return new Error("Cart item does not exist");
 						}
 						const removeIndex = cart.orderedItems.map(
 							(item: any) => item._id.toString())
-							.indexOf(args.cartItem_id);
+							.indexOf(cartItem_id);
 
 						cart.orderedItems.splice(removeIndex, 1);
 						cart.save().then(cart);
