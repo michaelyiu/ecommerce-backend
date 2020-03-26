@@ -6,6 +6,7 @@ import { combineResolvers } from "graphql-resolvers";
 import { AuthenticationError, UserInputError } from "apollo-server-lambda";
 import { isAuthenticated } from './authorization';
 
+const validateLoginInput = require('./../validation/login');
 
 const userResolvers: IResolvers = {
 	Query: {
@@ -48,11 +49,16 @@ const userResolvers: IResolvers = {
 		},
 
 		signIn: async (_, args, { models, secret }) => {
-
+			const { errors, isValid } = validateLoginInput(args);
+			if (!isValid) {
+				throw new UserInputError("Login failed!", { errors })
+			}
+			console.log("test");
 			const { email, password } = args;
 			const user = await models.User.findOne({ email }).then(async (user: any) => {
 				if (!user) {
-					throw new UserInputError("Login failed!");
+					errors.email = "Login email not found!";
+					throw new UserInputError("Login failed!", { errors });
 				}
 
 				const passwordIsValid = await compareSync(password, user.password);

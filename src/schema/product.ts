@@ -7,7 +7,7 @@ export default gql`
 	}
 
 	extend type Mutation {
-		addNewProduct(category: String!, name: String!, price: Float!, image: String!): Product!
+		addNewProduct(productInput: ProductInput!): Product!
 		updateProduct(product_id: String! productInput: ProductInput): Product!
 		deleteProduct(product_id: String!): Boolean!
 	}
@@ -20,6 +20,7 @@ export default gql`
 		name: String!
 		price: Float!
 		image: String!
+		description: String!
 	}
 
 	input ProductInput {
@@ -27,5 +28,6 @@ export default gql`
 		name: String!
 		price: Float!
 		image: String!
+		description: String!
 	}
 `;

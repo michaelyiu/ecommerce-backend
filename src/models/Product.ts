@@ -8,6 +8,7 @@ export interface IProduct extends Document {
 	name: string;
 	price: number;
 	image: string;
+	description: string;
 }
 
 var ProductSchema = new Schema({
@@ -15,6 +16,8 @@ var ProductSchema = new Schema({
 	name: String,
 	price: Number,
 	image: String,
+	description: String,
+
 	created_at: {
 		type: Date,
 		default: Date.now
