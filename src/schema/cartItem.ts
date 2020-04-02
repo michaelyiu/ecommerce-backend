@@ -14,7 +14,7 @@ export default gql`
 
 	type CartItem {
 		id: ID!
-		orderedBy: User!
+		orderedBy: User
 		cart: Cart
 		product: Product!
 		quantity: Int!

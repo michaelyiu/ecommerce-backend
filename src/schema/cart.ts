@@ -2,7 +2,7 @@ import { gql } from "apollo-server-lambda";
 
 export default gql`
 	extend type Query {
-		cart(id: String!): Cart
+		cart: Cart
 	}
 
 	extend type Mutation {
@@ -18,7 +18,7 @@ export default gql`
 	}
 
 	input CartInput {
-		orderedBy: String!
+		orderedBy: String
 		total: Float!
 		orderedItems: [String!]
 	}
