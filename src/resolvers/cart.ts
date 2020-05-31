@@ -5,8 +5,7 @@ import { combineResolvers } from "graphql-resolvers";
 const cartResolvers: IResolvers = {
 	Query: {
 		cart: combineResolvers(
-			async (_, { id }, { models, me }): Promise<string> => {
-				console.log(me)
+			async (_, _args, { models, me }): Promise<string> => {
 				return models.Cart.findOne({ orderedBy: me.id })
 			}
 		)
@@ -14,21 +13,31 @@ const cartResolvers: IResolvers = {
 	Mutation: {
 		updateCart: combineResolvers(
 			async (_, { cartInput }, { models, me }): Promise<string> => {
-				console.log('test')
-				let cart;
-				if (!cartInput) {
+				console.log("does my request reach?")
+				let { orderedItems } = cartInput;
+				let total: number = 0;
+				for (let i = 0; i < orderedItems.length; i++) {
+					total = total + (orderedItems[i].price * orderedItems[i].quantity);
+					orderedItems[i].product = orderedItems[i].id;
+				}
+
+				let cart = await models.Cart.findOne({
+					orderedBy: me.id
+				});
+
+				if (!cart) {
 					cart = await models.Cart.create({
 						orderedBy: me ? me.id : null,
-						total: 0
+						total,
+						orderedItems
 					})
 				}
 				else {
-					cart = await models.Cart.findOneAndUpdate(
-						{ orderedBy: me.id },
-						cartInput,
-						{ upsert: true, new: true }
-					)
+					cart.total = total
+					cart.orderedItems = orderedItems
+					await cart.save();
 				}
+
 				return cart;
 			}
 		),

@@ -6,7 +6,7 @@ export default gql`
 	}
 
 	extend type Mutation {
-		updateCart(cart_id: String cartInput: CartInput): Cart
+		updateCart(cartInput: CartInput): Cart
 		deleteCart(cart_id: String!): Boolean
 	}
 
@@ -15,11 +15,10 @@ export default gql`
 		user: User
 		total: Float
 		orderedItems: [CartItem]
+		product: String
 	}
 
 	input CartInput {
-		orderedBy: String
-		total: Float!
-		orderedItems: [String!]
+		orderedItems: [ProductInput!]
 	}
 `;

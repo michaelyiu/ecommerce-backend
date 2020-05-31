@@ -24,10 +24,12 @@ export default gql`
 	}
 
 	input ProductInput {
+		id: String
 		category: String!
 		name: String!
 		price: Float!
 		image: String!
 		description: String!
+		quantity: Int
 	}
 `;

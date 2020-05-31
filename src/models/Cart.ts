@@ -12,7 +12,7 @@ export interface ICart extends Document {
 
 export interface ICartItem extends Document {
 	quantity: Number,
-	product: String,
+	product: [String],
 	orderedBy: String
 }
 
@@ -22,17 +22,30 @@ var CartSchema = new Schema({
 	},
 	orderedItems: [
 		{
+			orderType: String,
 			quantity: {
 				type: Number
+			},
+			price: {
+				type: Number
+			},
+			category: {
+				type: String
+			},
+			image: {
+				type: String
+			},
+			name: {
+				type: String
+			},
+			description: {
+				type: String
 			},
 			product: {
 				type: Schema.Types.ObjectId,
 				ref: 'ProductSchema'
 			},
-			orderedBy: {
-				type: Schema.Types.ObjectId,
-				ref: 'UserSchema'
-			},
+
 		}
 	],
 	total: {

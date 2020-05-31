@@ -15,8 +15,10 @@ export default gql`
       password2: String!
       name: String!
     ): User!
+    
     signIn(email: String!, password: String!): Token!
   }
+
   type Token {
     id: String!
     name: String!
