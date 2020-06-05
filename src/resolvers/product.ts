@@ -11,7 +11,8 @@ const productResolvers: IResolvers = {
 			}
 		),
 		product: combineResolvers(
-			async (_, args, { models }): Promise<string> => {
+			async (_, args, { models }) => {
+				console.log('hi');
 				return models.Product.findById(args.id)
 			}
 		)
@@ -21,8 +22,9 @@ const productResolvers: IResolvers = {
 		// only admins will be able to add new products
 		addNewProduct: combineResolvers(
 			isAuthenticated,
-			async (_, args, { models }): Promise<string> => {
-				return await models.Product.create(args);
+			async (_, { productInput }, { models }): Promise<string> => {
+				console.log(productInput);
+				return await models.Product.create(productInput);
 			}
 		),
 		updateProduct: combineResolvers(

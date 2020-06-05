@@ -2,7 +2,7 @@ import { gql } from "apollo-server-lambda";
 
 export default gql`
 	extend type Query {
-		product(id: ID!): Product
+		product(id: String!): Product
 		allProducts: [Product]
 	}
 
@@ -19,7 +19,7 @@ export default gql`
 		category: String!
 		name: String!
 		price: Float!
-		image: String!
+		images: [String!]!
 		description: String!
 	}
 
@@ -28,7 +28,7 @@ export default gql`
 		category: String!
 		name: String!
 		price: Float!
-		image: String!
+		images: [String!]!
 		description: String!
 		quantity: Int
 	}
