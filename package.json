@@ -8,7 +8,8 @@
     "start": "nodemon --exec babel-node src/lambda/graphql.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:lambda": "netlify-lambda serve src/lambda --config webpack.functions.js",
-    "build:lambda": "netlify-lambda build src/lambda --config webpack.functions.js"
+    "build:lambda": "netlify-lambda build src/lambda --config webpack.functions.js",
+    "typegen": "apollo service:push --endpoint=http://localhost:9000/.netlify/functions/graphql"
   },
   "author": "",
   "license": "ISC",

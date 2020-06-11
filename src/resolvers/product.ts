@@ -12,8 +12,17 @@ const productResolvers: IResolvers = {
 		),
 		product: combineResolvers(
 			async (_, args, { models }) => {
-				console.log('hi');
 				return models.Product.findById(args.id)
+			}
+		),
+		searchProducts: combineResolvers(
+			async (_, { name }: { name: string }, { models }) => {
+				const searchQuery: string = name.toLowerCase();
+
+				const products = await models.Product.find({
+					name: { $regex: new RegExp("^" + searchQuery.toLowerCase(), "i") }
+				})
+				return products;
 			}
 		)
 	},
@@ -23,7 +32,6 @@ const productResolvers: IResolvers = {
 		addNewProduct: combineResolvers(
 			isAuthenticated,
 			async (_, { productInput }, { models }): Promise<string> => {
-				console.log(productInput);
 				return await models.Product.create(productInput);
 			}
 		),

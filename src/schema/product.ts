@@ -2,8 +2,9 @@ import { gql } from "apollo-server-lambda";
 
 export default gql`
 	extend type Query {
-		product(id: String!): Product
 		allProducts: [Product]
+		product(id: String!): Product
+		searchProducts(name: String!): [Product]
 	}
 
 	extend type Mutation {
@@ -21,6 +22,7 @@ export default gql`
 		price: Float!
 		images: [String!]!
 		description: String!
+		brand: String!
 	}
 
 	input ProductInput {
@@ -31,5 +33,17 @@ export default gql`
 		images: [String!]!
 		description: String!
 		quantity: Int
+		brand: AvailableBrands!
+	}
+
+	enum AvailableBrands{
+		APPLE
+		HTC
+		HUAWEI
+		LENOVO
+		ONEPLUS
+		SAMSUNG
+		SONY
+		XIAOMI
 	}
 `;
