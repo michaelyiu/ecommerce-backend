@@ -1,5 +1,6 @@
 import { ApolloServer, AuthenticationError } from "apollo-server-lambda";
 import "reflect-metadata";
+import "dotenv/config";
 import resolvers from "../resolvers";
 import schemas from "../schema";
 import * as mongoose from "mongoose";
@@ -12,6 +13,7 @@ export interface IToken extends Document {
   email: string;
   password: string;
 }
+
 //validate jwt then set me in graphql server context
 const getMe = async (token: any) => {
 
@@ -31,7 +33,6 @@ const getMe = async (token: any) => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
-  // context: async () => {
   context: async ({ event }) => {
     const user = await getMe(event.headers.authorization);
     return {

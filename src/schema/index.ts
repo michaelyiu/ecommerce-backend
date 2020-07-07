@@ -4,6 +4,7 @@ import userSchema from "./user";
 import productSchema from "./product";
 import cartSchema from "./cart";
 import cartItemSchema from "./cartItem";
+import checkoutSchema from "./checkout";
 
 const linkSchema = gql`
   scalar Date
@@ -23,4 +24,5 @@ export default [
   productSchema,
   cartSchema,
   cartItemSchema,
+  checkoutSchema
 ]

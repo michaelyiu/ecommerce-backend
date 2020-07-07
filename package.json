@@ -19,6 +19,7 @@
     "@types/graphql-iso-date": "^3.3.3",
     "@types/graphql-resolvers": "^0.2.2",
     "@types/jsonwebtoken": "^8.3.7",
+    "@types/stripe": "^7.13.24",
     "apollo-server-lambda": "^2.9.9",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
@@ -31,6 +32,7 @@
     "mongoose": "^5.8.10",
     "netlify-lambda": "^1.6.3",
     "reflect-metadata": "^0.1.13",
+    "stripe": "^8.68.0",
     "type-graphql": "^0.17.6",
     "validator": "^11.1.0"
   },

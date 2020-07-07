@@ -25,3 +25,4 @@ yarn-error.log*
 /dist
 /built-lambda
 /built-lambda/graphql.js
+.env

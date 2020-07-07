@@ -3,6 +3,7 @@ import userResolvers from "./user";
 import productResolvers from "./product";
 import cartResolvers from "./cart";
 import cartItemResolvers from "./cartItem";
+import checkoutResolvers from "./checkout";
 
 const customScalarResolver = {
 	Date: GraphQLDateTime,
@@ -14,4 +15,5 @@ export default [
 	productResolvers,
 	cartResolvers,
 	cartItemResolvers,
+	checkoutResolvers
 ];
