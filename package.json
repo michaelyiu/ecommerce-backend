@@ -20,7 +20,7 @@
     "@types/graphql-resolvers": "^0.2.2",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/stripe": "^7.13.24",
-    "apollo-server-lambda": "^2.9.9",
+    "apollo-server-lambda": "^2.14.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "encoding": "^0.1.12",
