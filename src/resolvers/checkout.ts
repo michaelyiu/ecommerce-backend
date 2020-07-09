@@ -2,7 +2,6 @@ import { IResolvers } from 'graphql-tools';
 import { combineResolvers } from "graphql-resolvers";
 
 import { stripe } from "../connectors/stripe";
-import { User } from '../models/User';
 
 const checkoutResolvers: IResolvers = {
 	Query: {
